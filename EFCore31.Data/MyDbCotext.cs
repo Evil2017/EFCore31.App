@@ -1,14 +1,20 @@
 ﻿using EFCore31.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EFCore31.Data
 {
-    public class MyCotext : DbContext
+    public class MyDbCotext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //    //optionsBuilder.UseSqlServer("Data source=(localdb)\\MSSQLLocalDB; initial Catalog=EFCore31  ");
+        //}
+        public MyDbCotext(DbContextOptions<MyDbCotext> options)
+            : base(options)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data source=(localdb)\\MSSQLLocalDB; initial Catalog=EFCore31  ");
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,8 +29,11 @@ namespace EFCore31.Data
                 .WithOne(x => x.Resume)
                 .HasForeignKey<Resume>(x => x.PlayerId);
         }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Resume> Resumes { get; set; }
         public DbSet<Player> players { get; set; }
         public DbSet<League> Leagues { get; set; }
         public DbSet<Club> Clubs { get; set; }
+ 
     }
 }

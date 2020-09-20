@@ -5,11 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200920035658_initail.cs" />
+    <Compile Remove="Migrations\20200920035658_initail.Designer.cs" />
+    <Compile Remove="Migrations\20200920082854_change.cs" />
+    <Compile Remove="Migrations\20200920082854_change.Designer.cs" />
+    <Compile Remove="Migrations\20200920092241_initial.cs" />
+    <Compile Remove="Migrations\20200920092241_initial.Designer.cs" />
+    <Compile Remove="Migrations\20200920100606_addgame.cs" />
+    <Compile Remove="Migrations\20200920100606_addgame.Designer.cs" />
+    <Compile Remove="Migrations\20200920101326_one_to_one.cs" />
+    <Compile Remove="Migrations\20200920101326_one_to_one.Designer.cs" />
+    <Compile Remove="Migrations\20200920103854_changed.cs" />
+    <Compile Remove="Migrations\20200920103854_changed.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.8" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCore31.Data.Migrations
 {
-    [DbContext(typeof(MyCotext))]
-    [Migration("20200920092241_initial")]
-    partial class initial
+    [DbContext(typeof(MyDbCotext))]
+    [Migration("20200920122029_initail")]
+    partial class initail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,39 @@ namespace EFCore31.Data.Migrations
                     b.HasIndex("leagueId");
 
                     b.ToTable("Clubs");
+                });
+
+            modelBuilder.Entity("EFCore31.Domain.Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Round")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("StartTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("EFCore31.Domain.GamePlayer", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("GamePlayer");
                 });
 
             modelBuilder.Entity("EFCore31.Domain.League", b =>
@@ -93,11 +126,35 @@ namespace EFCore31.Data.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int>("ResumeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClubId");
 
                     b.ToTable("players");
+                });
+
+            modelBuilder.Entity("EFCore31.Domain.Resume", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.ToTable("Resumes");
                 });
 
             modelBuilder.Entity("EFCore31.Domain.Club", b =>
@@ -107,11 +164,35 @@ namespace EFCore31.Data.Migrations
                         .HasForeignKey("leagueId");
                 });
 
+            modelBuilder.Entity("EFCore31.Domain.GamePlayer", b =>
+                {
+                    b.HasOne("EFCore31.Domain.Game", "Game")
+                        .WithMany("GamePlayers")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EFCore31.Domain.Player", "Player")
+                        .WithMany("GamePlayers")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EFCore31.Domain.Player", b =>
                 {
                     b.HasOne("EFCore31.Domain.Club", null)
                         .WithMany("Players")
                         .HasForeignKey("ClubId");
+                });
+
+            modelBuilder.Entity("EFCore31.Domain.Resume", b =>
+                {
+                    b.HasOne("EFCore31.Domain.Player", "Player")
+                        .WithOne("Resume")
+                        .HasForeignKey("EFCore31.Domain.Resume", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

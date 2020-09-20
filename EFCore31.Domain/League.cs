@@ -8,9 +8,11 @@ namespace EFCore31.Domain
     public class League
     {
         [Description("主键")]
-        [Display(Name ="主键")]
+        [Display(Name = "主键")]
         public int Id { get; set; }
 
+        //[DisplayName("名称")]
+        [Display(Description = "描述", Name = "名称", Prompt = "提示")]
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
